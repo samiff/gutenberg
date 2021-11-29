@@ -285,22 +285,8 @@ export default function PaletteEdit( {
 							} }
 						/>
 					) }
-					{ ! isEditing && (
-						<Button
-							disabled={ ! hasElements }
-							isSmall
-							icon={ moreVertical }
-							label={
-								isGradient
-									? __( 'Edit gradients' )
-									: __( 'Edit colors' )
-							}
-							onClick={ () => {
-								setIsEditing( true );
-							} }
-						/>
-					) }
-					{ isEditing && ( canReset || ! canOnlyChangeValues ) && (
+
+					{ hasElements && ( canReset || ! canOnlyChangeValues ) && (
 						<DropdownMenu
 							icon={ moreVertical }
 							label={
@@ -315,6 +301,17 @@ export default function PaletteEdit( {
 							{ ( { onClose } ) => (
 								<>
 									<NavigableMenu role="menu">
+										<Button
+											variant="tertiary"
+											disabled={ isEditing }
+											onClick={ () => {
+												setIsEditing( true );
+												onClose();
+											} }
+											className="edit-palette-menu-button"
+										>
+											{ __( 'Edit custom colors' ) }
+										</Button>
 										{ ! canOnlyChangeValues && (
 											<Button
 												variant="tertiary"
@@ -324,6 +321,7 @@ export default function PaletteEdit( {
 													onChange();
 													onClose();
 												} }
+												className="edit-palette-menu-button"
 											>
 												{ isGradient
 													? __(
