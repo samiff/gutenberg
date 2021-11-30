@@ -1433,19 +1433,42 @@ class WP_Theme_JSON_Gutenberg {
 						continue;
 					}
 
+					$should_override = self::should_override_preset( $preset['override'], $this->theme_json, $node['path'] );
+
 					if (
 						( 'theme' !== $origin ) ||
-						( 'theme' === $origin && $preset['override'] )
+						( 'theme' === $origin && $should_override )
 					) {
 						_wp_array_set( $this->theme_json, $path, $content );
 					}
 
-					if ( 'theme' === $origin && ! $preset['override'] ) {
+					if ( 'theme' === $origin && ! $should_override ) {
 						$content = self::filter_slugs( $content, $preset['path'], $slugs );
 						_wp_array_set( $this->theme_json, $path, $content );
 					}
 				}
 			}
+		}
+	}
+
+	private static function should_override_preset( $override, $theme_json, $path ) {
+		if ( is_bool( $override ) ) {
+			return $override;
+		}
+
+		if ( is_array( $override ) ) {
+			// If the preset uses a key from the theme.json
+			// this code expects the key to act as an opt-out from defaults.
+			// If the key is false, it means defaults won't be present,
+			// which in turns result in theme presets not being
+			// removed when their slugs are the same as the defaults.
+			//
+			// For example, a theme sets defaultPalette to false,
+			// what makes the default palette hidden from the user.
+			// In that case, we want all the theme presets to be present
+			// even the ones with slugs equal to defaults,
+			// because the user won't see any default preset.
+			return ! _wp_array_get( $theme_json, array_merge( $path, $override ), true );
 		}
 	}
 
