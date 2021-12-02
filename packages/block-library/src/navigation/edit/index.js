@@ -213,6 +213,7 @@ function Navigation( {
 				'background-color',
 				backgroundColor?.slug
 			) ]: !! backgroundColor?.slug,
+			'is-disabled': ! canUserEdit,
 		} ),
 		style: {
 			color: ! textColor?.slug && textColor?.color,
@@ -344,9 +345,11 @@ function Navigation( {
 					{ __(
 						'Navigation menu has been deleted or is unavailable. '
 					) }
-					<Button onClick={ startWithEmptyMenu } variant="link">
-						{ __( 'Create a new menu?' ) }
-					</Button>
+					{ canUserEdit && (
+						<Button onClick={ startWithEmptyMenu } variant="link">
+							{ __( 'Create a new menu?' ) }
+						</Button>
+					) }
 				</Warning>
 			</div>
 		);
@@ -526,7 +529,7 @@ function Navigation( {
 					</InspectorControls>
 				) }
 				<nav { ...blockProps }>
-					{ isPlaceholderShown && (
+					{ isPlaceholderShown && canUserEdit && (
 						<PlaceholderComponent
 							onFinish={ ( post ) => {
 								setIsPlaceholderShown( false );
