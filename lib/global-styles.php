@@ -351,7 +351,7 @@ function gutenberg_register_webfonts_from_theme_json() {
  * @return array The global styles with missing fonts data.
  */
 function gutenberg_add_registered_webfonts_to_theme_json( $data ) {
-	$font_families_registered = wp_webfonts()->webfonts()->get_all_registered();
+	$font_families_registered = wp_webfonts()->get_fonts();
 	$font_families_from_theme = array();
 	if ( ! empty( $data['settings'] ) && ! empty( $data['settings']['typography'] ) && ! empty( $data['settings']['typography']['fontFamilies'] ) ) {
 		$font_families_from_theme = $data['settings']['typography']['fontFamilies'];

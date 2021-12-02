@@ -4,20 +4,15 @@
  * @group  webfonts
  * @covers WP_WebfontsLocal_Provider
  */
-class WP_Webfonts_Local_Provider_Test extends WP_UnitTestCase {
+class WP_Webfonts_Provider_Local_Test extends WP_UnitTestCase {
 	private $provider;
 	private $theme_root;
 	private $orig_theme_dir;
 
-	public static function setUpBeforeClass() {
-		require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/lib/webfonts-api/providers/class-wp-webfonts-provider.php';
-		require_once dirname( dirname( dirname( __DIR__ ) ) ) . '/lib/webfonts-api/providers/class-wp-webfonts-local-provider.php';
-	}
-
 	public function setUp() {
 		parent::setUp();
 
-		$this->provider = new WP_Webfonts_Local_Provider();
+		$this->provider = new WP_Webfonts_Provider_Local();
 
 		$this->set_up_theme();
 	}
@@ -53,11 +48,11 @@ class WP_Webfonts_Local_Provider_Test extends WP_UnitTestCase {
 	}
 
 	/**
-	 * @covers WP_Webfonts_Local_Provider::set_webfonts
+	 * @covers WP_Webfonts_Provider_Local::set_webfonts
 	 */
 	public function test_set_webfonts() {
 		$webfonts = array(
-			'source-serif-pro.normal.200 900' => array(
+			'source-serif-pro-200-900-normal-local' => array(
 				'provider'     => 'local',
 				'font-family'  => 'Source Serif Pro',
 				'font-style'   => 'normal',
@@ -65,7 +60,7 @@ class WP_Webfonts_Local_Provider_Test extends WP_UnitTestCase {
 				'font-stretch' => 'normal',
 				'src'          => 'https://example.com/assets/fonts/source-serif-pro/SourceSerif4Variable-Roman.ttf.woff2',
 			),
-			'source-serif-pro.italic.200 900' => array(
+			'source-serif-pro-200-900-italic-local' => array(
 				'provider'     => 'local',
 				'font-family'  => 'Source Serif Pro',
 				'font-style'   => 'italic',
@@ -82,11 +77,11 @@ class WP_Webfonts_Local_Provider_Test extends WP_UnitTestCase {
 	}
 
 	/**
-	 * @covers WP_Webfonts_Local_Provider::get_css
+	 * @covers WP_Webfonts_Provider_Local::get_css
 	 *
 	 * @dataProvider data_get_css
 	 *
-	 * @param array  $webfonts Prepared webfonts (to store in WP_Webfonts_Local_Provider::$webfonts property).
+	 * @param array  $webfonts Prepared webfonts (to store in WP_Webfonts_Provider_Local::$webfonts property).
 	 * @param string $expected Expected CSS.
 	 */
 	public function test_get_css( array $webfonts, $expected ) {
@@ -105,7 +100,7 @@ class WP_Webfonts_Local_Provider_Test extends WP_UnitTestCase {
 		return array(
 			'truetype format' => array(
 				'webfonts' => array(
-					'open-sans.italic.bold' => array(
+					'open-sans-bold-italic-local' => array(
 						'provider'    => 'local',
 						'font-family' => 'Open Sans',
 						'font-style'  => 'italic',
@@ -120,7 +115,7 @@ CSS
 			),
 			'woff2 format'    => array(
 				'webfonts' => array(
-					'source-serif-pro.normal.200 900' => array(
+					'source-serif-pro-200-900-normal-local' => array(
 						'provider'     => 'local',
 						'font-family'  => 'Source Serif Pro',
 						'font-style'   => 'normal',
@@ -128,7 +123,7 @@ CSS
 						'font-stretch' => 'normal',
 						'src'          => 'http://example.org/assets/fonts/source-serif-pro/SourceSerif4Variable-Roman.ttf.woff2',
 					),
-					'source-serif-pro.italic.400 900' => array(
+					'source-serif-pro-400-900-italic-local' => array(
 						'provider'     => 'local',
 						'font-family'  => 'Source Serif Pro',
 						'font-style'   => 'italic',

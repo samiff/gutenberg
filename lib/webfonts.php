@@ -2,7 +2,7 @@
 /**
  * Webfonts API: Webfonts functions
  *
- * @since 5.9.0
+ * @since 6.0.0
  *
  * @package WordPress
  * @subpackage Webfonts
@@ -11,20 +11,15 @@
 /**
  * Instantiates the webfonts controller, if not already set, and returns it.
  *
- * @since 5.9.0
+ * @since 6.0.0
  *
- * @return WP_Webfonts_Controller Instance of the controller.
+ * @return WP_Webfonts Instance of the controller.
  */
 function wp_webfonts() {
 	static $instance;
 
-	if ( ! $instance instanceof WP_Webfonts_Controller ) {
-		$instance = new WP_Webfonts_Controller(
-			new WP_Webfonts_Registry(
-				new WP_Webfonts_Schema_Validator()
-			),
-			new WP_Webfonts_Provider_Registry()
-		);
+	if ( ! $instance instanceof WP_Webfonts ) {
+		$instance = new WP_Webfonts();
 		$instance->init();
 	}
 
@@ -79,7 +74,7 @@ function wp_webfonts() {
  * );
  * </code>
  *
- * @since 5.9.0
+ * @since 6.0.0
  *
  * @param array $webfonts Webfonts to be registered.
  *                        This contains an array of webfonts to be registered.
@@ -89,7 +84,7 @@ function wp_webfonts() {
  */
 function wp_register_webfonts( array $webfonts = array() ) {
 	foreach ( $webfonts as $webfont ) {
-		wp_webfonts()->webfonts()->register( $webfont );
+		wp_register_webfont( $webfont );
 	}
 }
 
@@ -123,14 +118,13 @@ function wp_register_webfonts( array $webfonts = array() ) {
  * );
  * ```
  *
- * @since 5.9.0
+ * @since 6.0.0
  *
  * @param array $webfont Webfont to be registered.
  *                       See {@see WP_Webfonts_Registry::register()} for a list of supported arguments.
- * @return string Registration key.
  */
 function wp_register_webfont( array $webfont ) {
-	return wp_webfonts()->webfonts()->register( $webfont );
+	wp_webfonts()->register_font( $webfont );
 }
 
 /**
@@ -151,16 +145,17 @@ function wp_register_webfont( array $webfont ) {
  *    wp_register_webfont_provider( My_Custom_Font_Service_Provider::class );
  * ```
  *
- * @since 5.9.0
+ * @since 6.0.0
  *
+ * @param string $name      The provider's name.
  * @param string $classname The provider's class name.
  *                          The class should be a child of `WP_Webfonts_Provider`.
  *                          See {@see WP_Webfonts_Provider}.
  *
  * @return bool True when registered. False when provider does not exist.
  */
-function wp_register_webfont_provider( $classname ) {
-	return wp_webfonts()->providers()->register( $classname );
+function wp_register_webfont_provider( $name, $classname ) {
+	return wp_webfonts()->register_provider( $name, $classname );
 }
 
 /**
@@ -175,11 +170,11 @@ function wp_register_webfont_provider( $classname ) {
  * process its specific font service (i.e. local or remote)
  * and how to generate the `@font-face` styles for its service.
  *
- * @since 5.9.0
+ * @since 6.0.0
  *
  * @return WP_Webfonts_Provider[] All registered providers,
  *                               each keyed by their unique ID.
  */
 function wp_get_webfont_providers() {
-	return wp_webfonts()->providers()->get_all_registered();
+	return wp_webfonts()->get_providers();
 }

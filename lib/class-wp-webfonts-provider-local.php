@@ -4,7 +4,7 @@
  *
  * @package    WordPress
  * @subpackage WebFonts
- * @since      5.9.0
+ * @since      6.0.0
  */
 
 /**
@@ -16,21 +16,21 @@
  *
  * When enqueued styles are rendered, the Controller passes its
  * 'local' webfonts {@see WP_Webfonts_Provider::set_setfonts()}
- * and then triggers {@see WP_Webfonts_Local_Provider::get_css()}
+ * and then triggers {@see WP_Webfonts_Provider_Local::get_css()}
  * the processing to transform them into `@font-face` styles.
  *
  * All know-how (business logic) for how to interact with and
  * generate styles from locally-hosted font files is contained
  * in this provider.
  *
- * @since 5.9.0
+ * @since 6.0.0
  */
-class WP_Webfonts_Local_Provider extends WP_Webfonts_Provider {
+class WP_Webfonts_Provider_Local extends WP_Webfonts_Provider {
 
 	/**
 	 * The provider's unique ID.
 	 *
-	 * @since 5.9.0
+	 * @since 6.0.0
 	 *
 	 * @var string
 	 */
@@ -82,7 +82,7 @@ class WP_Webfonts_Local_Provider extends WP_Webfonts_Provider {
 	 * }
 	 * </code>
 	 *
-	 * @since 5.9.0
+	 * @since 6.0.0
 	 *
 	 * @return string The `@font-face` CSS.
 	 */
@@ -103,7 +103,7 @@ class WP_Webfonts_Local_Provider extends WP_Webfonts_Provider {
 	/**
 	 * Order `src` items to optimize for browser support.
 	 *
-	 * @since 5.9.0
+	 * @since 6.0.0
 	 *
 	 * @param array $webfont Webfont to process.
 	 * @return array
@@ -176,7 +176,7 @@ class WP_Webfonts_Local_Provider extends WP_Webfonts_Provider {
 	/**
 	 * Builds the font-family's CSS.
 	 *
-	 * @since 5.9.0
+	 * @since 6.0.0
 	 *
 	 * @param array $webfont Webfont to process.
 	 * @return string This font-family's CSS.
@@ -221,7 +221,7 @@ class WP_Webfonts_Local_Provider extends WP_Webfonts_Provider {
 	/**
 	 * Compiles the `src` into valid CSS.
 	 *
-	 * @since 5.9.0
+	 * @since 6.0.0
 	 *
 	 * @param string $font_family Font family.
 	 * @param array  $value       Value to process.
@@ -246,7 +246,7 @@ class WP_Webfonts_Local_Provider extends WP_Webfonts_Provider {
 	/**
 	 * Compiles the font variation settings.
 	 *
-	 * @since 5.9.0
+	 * @since 6.0.0
 	 *
 	 * @param array $font_variation_settings Array of font variation settings.
 	 * @return string The CSS.
